@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { OrderPizzaService } from 'src/app/order-pizza.service';
 import { CartService } from 'src/app/cart.service';
 import { Pizza } from 'src/app/Pizza';
+
+interface PizzaApiResponse {
+  data: Pizza[];
+}
 
 @Component({
   selector: 'app-order-pizza',
@@ -9,14 +13,14 @@ import { Pizza } from 'src/app/Pizza';
   styleUrls: ['./order-pizza.component.css']
 })
 export class OrderPizzaComponent implements OnInit {
+  private orderPizza = inject(OrderPizzaService);
+  private cart = inject(CartService);
 
   pizzas: Pizza[] = [];
   cartItems: Pizza[] = [];
   
-  constructor(private orderPizza: OrderPizzaService, private cart: CartService) {}
-  
-  ngOnInit() {
-    this.orderPizza.getPizzaOrders().subscribe((data: any) => {
+  ngOnInit(): void {
+    this.orderPizza.getPizzaOrders().subscribe((data: PizzaApiResponse) => {
       this.pizzas = data.data;
     });
     

@@ -22,11 +22,11 @@
                     <table class="table table-striped border border-3" *ngIf="cart.length > 0">
                         <tbody>
                             <tr class="p-3" *ngFor="let c of cart">
-                                <td><img [src]="c.image" class="cart-pizza"></td>
+                                <td><img [src]="c.image" class="cart-pizza" [alt]="c.name"></td>
                                 <td>
-                                    <img src="..\assets\nonveg.png" alt="" width="27" height="27"
-                                        *ngIf="(c.type!='veg')">
-                                    <img src="..\assets\veg.png" alt="" width="27" height="27" *ngIf="(c.type=='veg')">
+                                    <img src="..\assets\nonveg.png" alt="non-veg" width="27" height="27"
+                                        *ngIf="(c.type!=='veg')">
+                                    <img src="..\assets\veg.png" alt="veg" width="27" height="27" *ngIf="(c.type==='veg')">
                                 </td>
                                 <td>
                                     <b class="text-capitalize">{{c.name}}</b> <br>

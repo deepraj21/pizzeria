@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CartService } from 'src/app/cart.service';
 import { Pizza } from 'src/app/Pizza';
 
@@ -9,12 +9,12 @@ import { Pizza } from 'src/app/Pizza';
 })
 export class CartComponent implements OnInit {
   cart: Pizza[] = [];
-  total: number = 0;
-  toppingtotal: number = 0;
+  total = 0;
+  toppingtotal = 0;
 
-  constructor(private cartService: CartService) {}
+  private cartService = inject(CartService);
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Initialize with current cart state
     this.cart = this.cartService.cart;
     this.total = this.cartService.getTotal();

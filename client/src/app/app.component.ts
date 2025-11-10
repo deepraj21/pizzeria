@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CartService } from './cart.service';
 
 @Component({
@@ -6,16 +6,16 @@ import { CartService } from './cart.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'client';
 
-  constructor(private cart: CartService){}
+  private cart = inject(CartService);
 
-  cartCount: number = 0;
+  cartCount = 0;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cart.cartData$.subscribe(data => {
       this.cartCount = data.length;
-    })
+    });
   }
 }

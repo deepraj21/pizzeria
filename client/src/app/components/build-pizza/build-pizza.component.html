@@ -16,12 +16,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let t of toppings">
-                <td> <img [src]="t.image" width="100px" height="100px"></td>
+                <td> <img [src]="t.image" width="100px" height="100px" [alt]="t.tname"></td>
                 <td><b>{{t.tname}} &nbsp; &#8377;{{t.price}}</b></td>
                 <td>
                     <div class="form-check">
-                        <input type="checkbox"  autocomplete="off" [checked]="flags[t.id]"  class="form-check-input" (change)="checkUncheck($event,t)" >
-                        <label class="form-check-label">
+                        <input type="checkbox" id="topping-{{t.id}}" autocomplete="off" [checked]="flags[t.id]" class="form-check-input" (change)="checkUncheck($event,t)">
+                        <label class="form-check-label" for="topping-{{t.id}}">
                             Add
                         </label>
                     </div>

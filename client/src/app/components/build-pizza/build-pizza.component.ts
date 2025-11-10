@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BuildPizzaService } from 'src/app/build-pizza.service';
 import { CartService } from 'src/app/cart.service';
 
@@ -11,48 +11,48 @@ interface Topping {
   _id: string;
 }
 
+interface ApiResponse {
+  data: Topping[];
+}
+
 @Component({
   selector: 'app-build-pizza',
   templateUrl: './build-pizza.component.html',
   styleUrls: ['./build-pizza.component.css']
 })
-export class BuildPizzaComponent {
+export class BuildPizzaComponent implements OnInit {
+  private buildservice = inject(BuildPizzaService);
+  private cartservice = inject(CartService);
 
-  constructor(private buildservice: BuildPizzaService,private cartservice: CartService) { }
-
-  toppings:any=[];
-  toppingtotal:number = 0;
-  flags: boolean[] = [];
+  toppings: Topping[] = [];
+  toppingtotal = 0;
+  flags: Record<string, boolean> = {};
 
   ngOnInit(): void {
-    this.buildservice.getIngredients().subscribe((res:any) => {
-    this.toppings = res.data;
-    // console.log(res.data)
+    this.buildservice.getIngredients().subscribe((res: ApiResponse) => {
+      this.toppings = res.data;
     });
 
-    this.toppingtotal=this.cartservice.toppingtotal;
+    this.toppingtotal = this.cartservice.toppingtotal;
     
-    for (let i = 0; i < this.cartservice.toppings.length; i++) {
-      this.flags[this.cartservice.toppings[i].id] = true;
+    for (const topping of this.cartservice.toppings) {
+      this.flags[topping.id] = true;
     }
   }
 
-  checkUncheck(e:any,topping:any){
-    if(e.target.checked)
-    {
-    this.cartservice.addToppings(topping);
-    this.flags[topping.id] = !this.flags[topping.id];
-    }
-    else
-    {
-    this.cartservice.removeToppings(topping);
-    this.flags[topping.id] = !this.flags[topping.id];
+  checkUncheck(e: Event, topping: Topping): void {
+    const target = e.target as HTMLInputElement;
+    if (target.checked) {
+      this.cartservice.addToppings(topping);
+      this.flags[topping.id] = !this.flags[topping.id];
+    } else {
+      this.cartservice.removeToppings(topping);
+      this.flags[topping.id] = !this.flags[topping.id];
     }
   }
 
-  getTotal(){
-     this.cartservice.getToppingsTotal();
-     this.toppingtotal=this.cartservice.toppingtotal;
+  getTotal(): void {
+    this.cartservice.getToppingsTotal();
+    this.toppingtotal = this.cartservice.toppingtotal;
   }
-
 }
