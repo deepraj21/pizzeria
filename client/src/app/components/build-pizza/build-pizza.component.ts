@@ -1,19 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { BuildPizzaService } from 'src/app/build-pizza.service';
+import { BuildPizzaService, ApiResponse, Topping } from 'src/app/build-pizza.service';
 import { CartService } from 'src/app/cart.service';
-
-interface Topping {
-  id: string;
-  image: string;
-  price: string;
-  tname: string;
-  __v: number;
-  _id: string;
-}
-
-interface ApiResponse {
-  data: Topping[];
-}
 
 @Component({
   selector: 'app-build-pizza',

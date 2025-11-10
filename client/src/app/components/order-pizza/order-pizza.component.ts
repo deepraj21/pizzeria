@@ -1,11 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { OrderPizzaService } from 'src/app/order-pizza.service';
+import { OrderPizzaService, PizzaApiResponse } from 'src/app/order-pizza.service';
 import { CartService } from 'src/app/cart.service';
 import { Pizza } from 'src/app/Pizza';
-
-interface PizzaApiResponse {
-  data: Pizza[];
-}
 
 @Component({
   selector: 'app-order-pizza',
